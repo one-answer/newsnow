@@ -11,3 +11,4 @@ dist/
 dev-dist
 *.tsbuildinfo
 wrangler.toml
+.idea
