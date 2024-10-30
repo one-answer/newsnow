@@ -17,7 +17,7 @@ dotenv.config({
 })
 
 const pwaOption: Partial<VitePWAOptions> = {
-  includeAssets: ["icon.svg", "apple-touch-icon.png"],
+  includeAssets: ["news.svg", "news_2.jpg"],
   manifest: {
     name: "刷一下",
     short_name: "刷一下",
