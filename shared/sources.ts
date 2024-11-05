@@ -279,6 +279,13 @@ export const originSources = {
     type: "hottest",
     home: "https://www.baidu.com",
   },
+  "dushu": {
+    name: "微信读书",
+    column: "china",
+    color: "blue",
+    type: "hottest",
+    home: "https://weread.qq.com",
+  },
   // "xiaohongshu": {
   //   name: "小红书",
   //   type: "hottest",
