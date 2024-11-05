@@ -28,7 +28,7 @@ export default defineSource(async () => {
   }
   obj.categoryStoreModule?.categoryBookList.forEach((v: any) => {
     news.push({
-      url: encodeURIComponent(baseURL),
+      url: `${baseURL}?id=${v.bookInfo.bookId}`,
       title: v.bookInfo.title,
       id: v.bookInfo.bookId,
       extra: {
