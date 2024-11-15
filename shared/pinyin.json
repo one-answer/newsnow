@@ -3,7 +3,7 @@
   "zhihu": "zhihu",
   "weibo": "weibo-shishiresou",
   "zaobao": "lianhezaobao",
-  "coolapk": "kuan-jinrizuire",
+  "bilibili-hot-search": "bilibili-resou",
   "wallstreetcn-quick": "huaerjiejianwen-shishikuaixun",
   "wallstreetcn-news": "huaerjiejianwen-zuixinzixun",
   "wallstreetcn-hot": "huaerjiejianwen-zuirewenzhang",
@@ -23,10 +23,10 @@
   "hackernews": "Hacker News",
   "producthunt": "Product Hunt",
   "github-trending-today": "Github-Today",
-  "bilibili-hot-search": "bilibili-resou",
   "kaopu": "kaopuxinwen",
   "jin10": "jinshishuju",
   "baidu": "baiduresou",
   "dushu": "dushu",
-  "xiaohongshu": "xiaohongshu"
+  "xiaohongshu": "xiaohongshu",
+  "coolapk": "kuan-jinrizuire"
 }

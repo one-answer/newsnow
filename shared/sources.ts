@@ -47,13 +47,17 @@ export const originSources = {
     color: "red",
     home: "https://www.zaobao.com",
   },
-  "coolapk": {
-    name: "酷安",
-    type: "hottest",
-    column: "tech",
-    color: "green",
-    title: "今日最热",
-    home: "https://coolapk.com",
+  "bilibili": {
+    name: "哔哩哔哩",
+    color: "blue",
+    home: "https://www.bilibili.com",
+    sub: {
+      "hot-search": {
+        title: "热搜",
+        column: "china",
+        type: "hottest",
+      },
+    },
   },
   "wallstreetcn": {
     name: "华尔街见闻",
@@ -214,14 +218,12 @@ export const originSources = {
     name: "Hacker News",
     color: "orange",
     column: "tech",
-    type: "hottest",
     home: "https://news.ycombinator.com/",
   },
   "producthunt": {
     name: "Product Hunt",
     color: "red",
     column: "tech",
-    type: "hottest",
     home: "https://www.producthunt.com/",
   },
   "github": {
@@ -232,19 +234,6 @@ export const originSources = {
     sub: {
       "trending-today": {
         title: "Today",
-        type: "hottest",
-      },
-    },
-  },
-  "bilibili": {
-    name: "哔哩哔哩",
-    color: "blue",
-    home: "https://www.bilibili.com",
-    sub: {
-      "hot-search": {
-        title: "热搜",
-        column: "china",
-        type: "hottest",
       },
     },
   },
@@ -292,6 +281,14 @@ export const originSources = {
     column: "china",
     color: "red",
     home: "https://www.newrank.cn",
+  },
+  "coolapk": {
+    name: "酷安",
+    type: "hottest",
+    column: "tech",
+    color: "green",
+    title: "今日最热",
+    home: "https://coolapk.com",
   },
 } as const satisfies Record<string, OriginSource>
 
