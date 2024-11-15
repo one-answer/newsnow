@@ -286,13 +286,13 @@ export const originSources = {
     type: "hottest",
     home: "https://weread.qq.com",
   },
-  // "xiaohongshu": {
-  //   name: "小红书",
-  //   type: "hottest",
-  //   column: "china",
-  //   color: "red",
-  //   home: "https://www.xiaohongshu.com",
-  // },
+  "xiaohongshu": {
+    name: "小红书涨粉榜",
+    type: "hottest",
+    column: "china",
+    color: "red",
+    home: "https://www.newrank.cn",
+  },
 } as const satisfies Record<string, OriginSource>
 
 export const sources = genSources()
