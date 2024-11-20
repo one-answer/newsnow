@@ -15,7 +15,7 @@ interface StockRes {
 
 const hotstock = defineSource(async () => {
   const url = "https://stock.xueqiu.com/v5/stock/hot_stock/list.json?size=30&_type=10&type=10"
-  const cookie = (await $fetch.raw("https://xueqiu.com")).headers.getSetCookie()
+  const cookie = (await $fetch.raw("https://xueqiu.com/?md5__1038=QqGxcDnDyiitnD05o4%2Br%3DDRW1ASAf20bD")).headers.getSetCookie()
   const res: StockRes = await $fetch(url, {
     headers: {
       cookie: cookie.join("; "),
