@@ -276,7 +276,7 @@ export const originSources = {
     home: "https://weread.qq.com",
   },
   "xiaohongshu": {
-    name: "小红书涨粉榜",
+    name: "小红书",
     type: "hottest",
     column: "china",
     color: "red",

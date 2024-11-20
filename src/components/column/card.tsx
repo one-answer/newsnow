@@ -1,39 +1,39 @@
-import type { NewsItem, SourceID, SourceResponse } from "@shared/types"
-import { useQuery } from "@tanstack/react-query"
-import clsx from "clsx"
-import { AnimatePresence, motion, useInView } from "framer-motion"
-import { useAtom } from "jotai"
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react"
-import { sources } from "@shared/sources"
-import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities"
-import { ofetch } from "ofetch"
-import { useWindowSize } from "react-use"
-import { OverlayScrollbar } from "../common/overlay-scrollbar"
-import { refetchSourcesAtom } from "~/atoms"
-import { useRelativeTime } from "~/hooks/useRelativeTime"
-import { safeParseString } from "~/utils"
-import { useFocusWith } from "~/hooks/useFocus"
+import type { NewsItem, SourceID, SourceResponse } from "@shared/types";
+import { useQuery } from "@tanstack/react-query";
+import clsx from "clsx";
+import { AnimatePresence, motion, useInView } from "framer-motion";
+import { useAtom } from "jotai";
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
+import { sources } from "@shared/sources";
+import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
+import { ofetch } from "ofetch";
+import { useWindowSize } from "react-use";
+import { OverlayScrollbar } from "../common/overlay-scrollbar";
+import { refetchSourcesAtom } from "~/atoms";
+import { useRelativeTime } from "~/hooks/useRelativeTime";
+import { safeParseString } from "~/utils";
+import { useFocusWith } from "~/hooks/useFocus";
 
 export interface ItemsProps extends React.HTMLAttributes<HTMLDivElement> {
-  id: SourceID
+  id: SourceID;
   /**
    * 是否显示透明度，拖动时原卡片的样式
    */
-  isDragged?: boolean
-  handleListeners?: SyntheticListenerMap
+  isDragged?: boolean;
+  handleListeners?: SyntheticListenerMap;
 }
 
 interface NewsCardProps {
-  id: SourceID
-  handleListeners?: SyntheticListenerMap
-  inView: boolean
+  id: SourceID;
+  handleListeners?: SyntheticListenerMap;
+  inView: boolean;
 }
 
 export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragged, handleListeners, style, ...props }, dndRef) => {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref)
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref);
 
-  useImperativeHandle(dndRef, () => ref.current!)
+  useImperativeHandle(dndRef, () => ref.current!);
 
   return (
     <div
@@ -52,65 +52,92 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
     >
       <NewsCard id={id} inView={inView} handleListeners={handleListeners} />
     </div>
-  )
-})
+  );
+});
 
-const prevSourceItems: Partial<Record<SourceID, NewsItem[]>> = {}
+const prevSourceItems: Partial<Record<SourceID, NewsItem[]>> = {};
 function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
-  const [refetchSource, setRefetchSource] = useAtom(refetchSourcesAtom)
+  const [refetchSource, setRefetchSource] = useAtom(refetchSourcesAtom);
   const { data, isFetching, isPlaceholderData, isError } = useQuery({
     queryKey: [id, refetchSource[id]],
     queryFn: async ({ queryKey }) => {
-      const [_id, _refetchTime] = queryKey as [SourceID, number]
-      let url = `/api/s/${_id}`
-      const headers: Record<string, any> = {}
-      if (Date.now() - _refetchTime < 1000) {
-        url = `/api/s/${_id}?latest`
-        const jwt = safeParseString(localStorage.getItem("jwt"))
-        if (jwt) headers.Authorization = `Bearer ${jwt}`
+      let response: SourceResponse;
+      const [_id, _refetchTime] = queryKey as [SourceID, number];
+      if (id === 'xiaohongshu') {
+        document.cookie = "a1=192e0f41eb28rl2s06t7jprodoz8mem7zinadmvn730000385524";
+        const xs = window.getXS();
+        let url = `https://kaiwu.xxlb.org/xhs?xs=${xs["X-s"]}&xt=${xs["X-t"]}`;
+        const res = await ofetch(url, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const { data } = JSON.parse(res);
+        const items: NewsItem[] = data.items.map((v: any) => ({
+          id: v.id,
+          title: v.note_card.display_title,
+          url: `https://www.xiaohongshu.com/explore/${v.id}?xsec_token=${v.xsec_token}&xsec_source=pc_feed`,
+          extra: {
+
+          }
+        }));
+        response = {
+          status: "success",
+          id: id,
+          updatedTime: xs["X-t"],
+          items
+        };
+      } else {
+        let url = `/api/s/${_id}`;
+        const headers: Record<string, any> = {};
+        if (Date.now() - _refetchTime < 1000) {
+          url = `/api/s/${_id}?latest`;
+          const jwt = safeParseString(localStorage.getItem("jwt"));
+          if (jwt) headers.Authorization = `Bearer ${jwt}`;
+        }
+        response = await ofetch(url, {
+          timeout: 10000,
+          headers,
+        });
       }
-      const response: SourceResponse = await ofetch(url, {
-        timeout: 10000,
-        headers,
-      })
 
       try {
         if (response.items && sources[_id].type === "hottest" && prevSourceItems[_id]) {
           response.items.forEach((item, i) => {
-            const o = prevSourceItems[_id]!.findIndex(k => k.id === item.id)
+            const o = prevSourceItems[_id]!.findIndex(k => k.id === item.id);
             item.extra = {
               ...item?.extra,
               diff: o === -1 ? undefined : o - i,
-            }
-          })
+            };
+          });
         }
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
 
-      return response
+      return response;
     },
     // refetch 时显示原有的数据
     placeholderData: (prev) => {
       if (prev?.id === id) {
-        if (prev?.items && sources[id].type === "hottest") prevSourceItems[id] = prev.items
-        return prev
+        if (prev?.items && sources[id].type === "hottest") prevSourceItems[id] = prev.items;
+        return prev;
       }
     },
     staleTime: 1000 * 60 * 5,
     enabled: inView,
-  })
+  });
 
   const manualRefetch = useCallback(() => {
     setRefetchSource(prev => ({
       ...prev,
       [id]: Date.now(),
-    }))
-  }, [setRefetchSource, id])
+    }));
+  }, [setRefetchSource, id]);
 
-  const isFreshFetching = useMemo(() => isFetching && !isPlaceholderData, [isFetching, isPlaceholderData])
+  const isFreshFetching = useMemo(() => isFetching && !isPlaceholderData, [isFetching, isPlaceholderData]);
 
-  const { isFocused, toggleFocus } = useFocusWith(id)
+  const { isFocused, toggleFocus } = useFocusWith(id);
 
   return (
     <>
@@ -175,29 +202,29 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
         </div>
       </OverlayScrollbar>
     </>
-  )
+  );
 }
 
-function UpdatedTime({ isError, updatedTime }: { updatedTime: any, isError: boolean }) {
-  const relativeTime = useRelativeTime(updatedTime ?? "")
-  if (relativeTime) return `${relativeTime}更新`
-  if (isError) return "获取失败"
-  return "加载中..."
+function UpdatedTime({ isError, updatedTime }: { updatedTime: any, isError: boolean; }) {
+  const relativeTime = useRelativeTime(updatedTime ?? "");
+  if (relativeTime) return `${relativeTime}更新`;
+  if (isError) return "获取失败";
+  return "加载中...";
 }
 
-function DiffNumber({ diff }: { diff: number }) {
-  const [shown, setShown] = useState(true)
+function DiffNumber({ diff }: { diff: number; }) {
+  const [shown, setShown] = useState(true);
   useEffect(() => {
-    setShown(true)
+    setShown(true);
     const timer = setTimeout(() => {
-      setShown(false)
-    }, 5000)
-    return () => clearTimeout(timer)
-  }, [setShown, diff])
+      setShown(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [setShown, diff]);
 
   return (
     <AnimatePresence>
-      { shown && (
+      {shown && (
         <motion.span
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 0.5, y: -7 }}
@@ -208,14 +235,14 @@ function DiffNumber({ diff }: { diff: number }) {
         </motion.span>
       )}
     </AnimatePresence>
-  )
+  );
 }
-function ExtraInfo({ item }: { item: NewsItem }) {
+function ExtraInfo({ item }: { item: NewsItem; }) {
   if (item?.extra?.info) {
-    return <>{item.extra.info}</>
+    return <>{item.extra.info}</>;
   }
   if (item?.extra?.icon) {
-    const { url, scale } = typeof item.extra.icon === "string" ? { url: item.extra.icon, scale: undefined } : item.extra.icon
+    const { url, scale } = typeof item.extra.icon === "string" ? { url: item.extra.icon, scale: undefined } : item.extra.icon;
     return (
       <img
         src={url}
@@ -225,16 +252,16 @@ function ExtraInfo({ item }: { item: NewsItem }) {
         className="h-4 inline mt--1"
         onError={e => e.currentTarget.hidden = true}
       />
-    )
+    );
   }
 }
 
-function NewsUpdatedTime({ date }: { date: string | number }) {
-  const relativeTime = useRelativeTime(date)
-  return <>{relativeTime}</>
+function NewsUpdatedTime({ date }: { date: string | number; }) {
+  const relativeTime = useRelativeTime(date);
+  return <>{relativeTime}</>;
 }
-function NewsListHot({ items }: { items: NewsItem[] }) {
-  const { width } = useWindowSize()
+function NewsListHot({ items }: { items: NewsItem[]; }) {
+  const { width } = useWindowSize();
   return (
     <>
       {items?.map((item, i) => (
@@ -263,11 +290,11 @@ function NewsListHot({ items }: { items: NewsItem[] }) {
         </a>
       ))}
     </>
-  )
+  );
 }
 
-function NewsListTimeLine({ items }: { items: NewsItem[] }) {
-  const { width } = useWindowSize()
+function NewsListTimeLine({ items }: { items: NewsItem[]; }) {
+  const { width } = useWindowSize();
   return (
     <ol className="border-s border-neutral-400/50 flex flex-col ml-1">
       {items?.map(item => (
@@ -292,5 +319,5 @@ function NewsListTimeLine({ items }: { items: NewsItem[] }) {
         </li>
       ))}
     </ol>
-  )
+  );
 }
