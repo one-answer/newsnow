@@ -65,13 +65,6 @@ export const originSources = {
     column: "china",
     color: "red",
     home: "https://www.newrank.cn",
-    sub: {
-      "hot-search": {
-        title: "热搜",
-        column: "china",
-        type: "hottest",
-      },
-    },
   },
 
   "36kr": {
