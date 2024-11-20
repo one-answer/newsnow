@@ -59,28 +59,21 @@ export const originSources = {
       },
     },
   },
-  "wallstreetcn": {
-    name: "华尔街见闻",
-    color: "blue",
-    column: "finance",
-    home: "https://wallstreetcn.com/",
+  "xiaohongshu": {
+    name: "小红书",
+    type: "hottest",
+    column: "china",
+    color: "red",
+    home: "https://www.newrank.cn",
     sub: {
-      quick: {
-        type: "realtime",
-        interval: Time.Fast,
-        title: "实时快讯",
-      },
-      news: {
-        title: "最新资讯",
-        interval: Time.Common,
-      },
-      hot: {
-        title: "最热文章",
+      "hot-search": {
+        title: "热搜",
+        column: "china",
         type: "hottest",
-        interval: Time.Common,
       },
     },
   },
+
   "36kr": {
     name: "36氪",
     type: "realtime",
@@ -275,13 +268,29 @@ export const originSources = {
     type: "hottest",
     home: "https://weread.qq.com",
   },
-  "xiaohongshu": {
-    name: "小红书",
-    type: "hottest",
-    column: "china",
-    color: "red",
-    home: "https://www.newrank.cn",
+  "wallstreetcn": {
+    name: "华尔街见闻",
+    color: "blue",
+    column: "finance",
+    home: "https://wallstreetcn.com/",
+    sub: {
+      quick: {
+        type: "realtime",
+        interval: Time.Fast,
+        title: "实时快讯",
+      },
+      news: {
+        title: "最新资讯",
+        interval: Time.Common,
+      },
+      hot: {
+        title: "最热文章",
+        type: "hottest",
+        interval: Time.Common,
+      },
+    },
   },
+
   "coolapk": {
     name: "酷安",
     type: "hottest",
