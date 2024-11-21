@@ -1,7 +1,9 @@
-import ReactDOM from "react-dom/client"
-import { RouterProvider, createRouter } from "@tanstack/react-router"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { routeTree } from "./routeTree.gen"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
+import ReactDOM from "react-dom/client";
+import { routeTree } from "./routeTree.gen";
 
 const queryClient = new QueryClient()
 
@@ -21,6 +23,8 @@ if (!rootElement.innerHTML) {
   root.render(
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
+      <Analytics />
+      <SpeedInsights />
     </QueryClientProvider>,
   )
 }
