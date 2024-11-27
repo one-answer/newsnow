@@ -64,7 +64,28 @@ export const originSources = {
     type: "hottest",
     column: "china",
     color: "red",
-    home: "https://www.newrank.cn",
+    home: "https://www.xiaohongshu.com",
+  },
+  "cto": {
+    name: "51CTO",
+    type: "hottest",
+    column: "china",
+    color: "red",
+    home: "https://www.51cto.com/",
+  },
+  "gjyunying": {
+    name: "国家孕婴网",
+    type: "hottest",
+    column: "china",
+    color: "red",
+    home: "https://www.gjyunying.com",
+  },
+  "sohu": {
+    name: "搜狐",
+    type: "hottest",
+    column: "china",
+    color: "yellow",
+    home: "https://www.sohu.com",
   },
 
   "36kr": {
@@ -229,7 +250,7 @@ export const originSources = {
     column: "china",
     color: "orange",
     // cloudflare pages cannot access
-    disable: true,
+    // disable: true,
     home: "https://www.kuaishou.com",
   },
   "kaopu": {
