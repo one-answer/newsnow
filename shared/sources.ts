@@ -67,7 +67,7 @@ export const originSources = {
     home: "https://www.xiaohongshu.com",
   },
   "cto": {
-    name: "CTO",
+    name: "51CTO",
     type: "hottest",
     column: "china",
     color: "red",
