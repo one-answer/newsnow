@@ -26,7 +26,12 @@ interface HotRankData {
 
 export default defineSource(async () => {
   // 获取快手首页HTML
-  const html = await $fetch("https://www.kuaishou.com/?isHome=1")
+  const html = await $fetch("https://www.kuaishou.com/?isHome=1", {
+    headers: {
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+      "sec-ch-ua": "\"Google Chrome\";v=\"129\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"129\""
+    },
+  })
   // 提取window.__APOLLO_STATE__中的数据
   const matches = (html as string).match(/window\.__APOLLO_STATE__\s*=\s*(\{.+?\});/)
   if (!matches) {
