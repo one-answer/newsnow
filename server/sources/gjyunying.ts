@@ -9,11 +9,11 @@ export default defineSource(async () => {
     },
   });
   const $ = cheerio.load(html);
-  const $main = $(".k-polular-list > li");
+  const $main = $(".scienceleft-wrap-list > li");
   const news: NewsItem[] = [];
   $main.each((_, el) => {
     const a = $(el).find("a");
-    const title = $(a).find('p').text().replace(/\n+/g, "").trim();
+    const title = a.attr("title")?.replace(/\n+/g, "").trim();
     const url = a.attr("href");
     if (url && title) {
       news.push({
