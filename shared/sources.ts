@@ -66,20 +66,6 @@ export const originSources = {
     color: "red",
     home: "https://www.xiaohongshu.com",
   },
-  "cto": {
-    name: "51CTO",
-    type: "hottest",
-    column: "china",
-    color: "red",
-    home: "https://www.51cto.com",
-  },
-  "gjyunying": {
-    name: "国家孕婴网",
-    type: "hottest",
-    column: "china",
-    color: "red",
-    home: "https://www.gjyunying.com",
-  },
   "sohu": {
     name: "搜狐",
     type: "hottest",
@@ -312,6 +298,13 @@ export const originSources = {
     color: "green",
     title: "今日最热",
     home: "https://coolapk.com",
+  },
+  "gjyunying": {
+    name: "国家孕婴网",
+    type: "hottest",
+    column: "china",
+    color: "red",
+    home: "https://www.gjyunying.com",
   },
 } as const satisfies Record<string, OriginSource>
 
