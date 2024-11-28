@@ -1,6 +1,6 @@
-import { Interval } from "./consts";
-import { typeSafeObjectFromEntries } from "./type.util";
-import type { OriginSource, Source, SourceID } from "./types";
+import { Interval } from "./consts"
+import { typeSafeObjectFromEntries } from "./type.util"
+import type { OriginSource, Source, SourceID } from "./types"
 
 const Time = {
   Test: 1,
@@ -65,6 +65,13 @@ export const originSources = {
     column: "china",
     color: "red",
     home: "https://www.xiaohongshu.com",
+  },
+  "cto": {
+    name: "51CTO",
+    type: "hottest",
+    column: "china",
+    color: "red",
+    home: "https://www.51cto.com",
   },
   "gjyunying": {
     name: "国家孕婴网",
