@@ -183,23 +183,6 @@ export const originSources = {
     interval: Time.Realtime,
     home: "https://www.gelonghui.com",
   },
-  "fastbull": {
-    name: "法布财经",
-    color: "emerald",
-    home: "https://www.fastbull.cn",
-    column: "finance",
-    sub: {
-      express: {
-        title: "快讯",
-        type: "realtime",
-        interval: Time.Realtime,
-      },
-      news: {
-        title: "头条",
-        interval: Time.Common,
-      },
-    },
-  },
   "solidot": {
     name: "Solidot",
     color: "teal",
