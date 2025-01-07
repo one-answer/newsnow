@@ -1,6 +1,6 @@
-import { Interval } from "./consts"
-import { typeSafeObjectFromEntries } from "./type.util"
-import type { OriginSource, Source, SourceID } from "./types"
+import { Interval } from "./consts";
+import { typeSafeObjectFromEntries } from "./type.util";
+import type { OriginSource, Source, SourceID } from "./types";
 
 const Time = {
   Test: 1,
@@ -59,12 +59,40 @@ export const originSources = {
       },
     },
   },
+  "tengxun": {
+    name: "腾讯新闻",
+    type: "hottest",
+    column: "china",
+    color: "blue",
+    home: "https://news.qq.com",
+  },
   "xiaohongshu": {
     name: "小红书",
     type: "hottest",
     column: "china",
     color: "red",
     home: "https://www.xiaohongshu.com",
+  },
+  "xinlang": {
+    name: "新浪网",
+    type: "hottest",
+    column: "china",
+    color: "red",
+    home: "https://www.sina.com.cn",
+  },
+  "fenghuang": {
+    name: "凤凰网",
+    type: "hottest",
+    column: "china",
+    color: "red",
+    home: "https://www.ifeng.com",
+  },
+  "wangyi": {
+    name: "网易娱乐",
+    type: "hottest",
+    column: "china",
+    color: "red",
+    home: "https://ent.163.com",
   },
   "sohu": {
     name: "搜狐",
@@ -96,8 +124,10 @@ export const originSources = {
   },
   "hupu": {
     name: "虎扑",
-    disable: true,
     home: "https://hupu.com",
+    type: "hottest",
+    column: "china",
+    color: "red",
   },
   "tieba": {
     name: "百度贴吧",
@@ -272,15 +302,6 @@ export const originSources = {
         interval: Time.Common,
       },
     },
-  },
-
-  "coolapk": {
-    name: "酷安",
-    type: "hottest",
-    column: "tech",
-    color: "green",
-    title: "今日最热",
-    home: "https://coolapk.com",
   },
   "gjyunying": {
     name: "国家孕婴网",

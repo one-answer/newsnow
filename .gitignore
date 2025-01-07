@@ -12,3 +12,4 @@ dev-dist
 *.tsbuildinfo
 wrangler.toml
 .idea
+.DS_Store
