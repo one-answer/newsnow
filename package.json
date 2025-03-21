@@ -5,12 +5,6 @@
   "private": true,
   "commit-id": "",
   "packageManager": "pnpm@9.12.1",
-  "author": {
-    "url": "https://github.com/ourongxing/",
-    "email": "orongxing@gmail.com",
-    "name": "ourongxing"
-  },
-  "homepage": "https://github.com/ourongxing/newsnow",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
