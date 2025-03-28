@@ -1,0 +1,25 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- 背景圆形 -->
+    <circle cx="100" cy="100" r="90" fill="#F14D42" />
+
+    <!-- 新闻纸元素 -->
+    <rect x="45" y="55" width="110" height="90" rx="4" fill="white" />
+    <rect x="55" y="65" width="90" height="5" rx="2" fill="#333333" />
+    <rect x="55" y="75" width="70" height="5" rx="2" fill="#333333" />
+    <rect x="55" y="85" width="90" height="5" rx="2" fill="#666666" />
+    <rect x="55" y="95" width="80" height="5" rx="2" fill="#666666" />
+    <rect x="55" y="105" width="90" height="5" rx="2" fill="#666666" />
+    <rect x="55" y="115" width="85" height="5" rx="2" fill="#666666" />
+    <rect x="55" y="125" width="60" height="5" rx="2" fill="#666666" />
+
+    <!-- 实时更新元素 -->
+    <path d="M140 70 A25 25 0 1 1 140 120" stroke="#F14D42" stroke-width="6" stroke-linecap="round" />
+    <path d="M150 80 A15 15 0 1 1 150 110" stroke="#F14D42" stroke-width="4" stroke-linecap="round" />
+
+    <!-- 脉冲效果 -->
+    <circle cx="155" cy="95" r="8" fill="#F14D42" />
+    <circle cx="155" cy="95" r="12" stroke="#F14D42" stroke-width="2" stroke-dasharray="4 4">
+        <animate attributeName="r" values="8;24;8" dur="2s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="1;0;1" dur="2s" repeatCount="indefinite" />
+    </circle>
+</svg>
