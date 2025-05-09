@@ -19,8 +19,8 @@ dotenv.config({
 const pwaOption: Partial<VitePWAOptions> = {
   includeAssets: ["news.svg", "news_2.jpg"],
   manifest: {
-    name: "刷一下",
-    short_name: "刷一下",
+    name: "实时榜单资讯",
+    short_name: "实时榜单资讯",
     description: "Elegant reading of real-time and hottest news",
     theme_color: "#F14D42",
     icons: [

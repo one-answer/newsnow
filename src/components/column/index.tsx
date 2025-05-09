@@ -13,7 +13,7 @@ export function Column({ id }: { id: FixedColumnID }) {
     setCurrentColumnID(id)
   }, [id, setCurrentColumnID])
 
-  useTitle(`刷一下 | ${metadata[id].name}`)
+  useTitle(`实时榜单资讯 | ${metadata[id].name}`)
   return (
     <>
       <div className="flex justify-center md:hidden mb-6">
