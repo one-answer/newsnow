@@ -1,5 +1,6 @@
 interface Res {
   data: {
+     card_id: string;
     card_label?: {
       icon: string
       night_icon: string
@@ -35,7 +36,7 @@ export default defineSource({
           extra: {
             icon: k.card_label?.night_icon && `/api/proxy?img=${encodeURIComponent(k.card_label?.night_icon)}`,
           },
-          url: `https://www.zhihu.com/question/${k.target.id}`,
+          url: `https://www.zhihu.com/question/${k.card_id.split('_')[1]}`,
         }
       })
   },
