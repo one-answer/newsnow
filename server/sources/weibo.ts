@@ -27,7 +27,11 @@ interface Res {
 
 export default defineSource(async () => {
   const url = "https://weibo.com/ajax/side/hotSearch"
-  const res: Res = await $fetch(url)
+  const res: Res = await $fetch(url, {
+    headers: {
+      referer: 'https://weibo.com/newlogin?tabtype=search&gid=&openLoginLayer=0&url=https%3A%2F%2Fweibo.com%2F'
+    }
+  })
   return res.data.realtime
     .filter(k => !k.is_ad)
     .map((k) => {
