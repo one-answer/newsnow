@@ -1,27 +1,28 @@
-interface Res {
-  data: {
-    word_list: {
-      sentence_id: string
-      word: string
-      event_time: string
-      hot_value: string
-    }[]
-  }
+interface FreeJkDouyinResponse {
+  updateTime?: string
+  data?: Array<{
+    id?: string | number
+    title?: string
+    url?: string
+    mobileUrl?: string
+    hot?: string | number
+    timestamp?: string | number
+  }>
 }
 
 export default defineSource(async () => {
-  const url = "https://www.douyin.com/aweme/v1/web/hot/search/list/?device_platform=webapp&aid=6383&channel=channel_pc_web&detail_list=1"
-  const cookie = (await $fetch.raw("https://www.douyin.com/passport/general/login_guiding_strategy/?aid=6383")).headers.getSetCookie()
-  const res: Res = await $fetch(url, {
-    headers: {
-      cookie: cookie.join("; "),
-    },
-  })
-  return res.data.word_list.map((k) => {
-    return {
-      id: k.sentence_id,
-      title: k.word,
-      url: `https://www.douyin.com/hot/${k.sentence_id}`,
-    }
-  })
+  const res = await $fetch<FreeJkDouyinResponse>("https://api.freejk.com/shuju/hotlist/douyin")
+  const items = Array.isArray(res.data) ? res.data : []
+
+  return items
+    .filter(item => item.id && item.title)
+    .map(item => ({
+      id: String(item.id),
+      title: item.title!,
+      url: item.url || item.mobileUrl || `https://www.douyin.com/hot/${item.id}`,
+      extra: {
+        hot: item.hot,
+        timestamp: item.timestamp,
+      },
+    }))
 })
