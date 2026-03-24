@@ -1,32 +1,45 @@
-import { Buffer } from "node:buffer"
 import * as cheerio from "cheerio"
-import iconv from "iconv-lite"
 import type { NewsItem } from "@shared/types"
-import { $fetch } from "ofetch"
+
+function parsePubDate(href: string, timeText: string) {
+  const match = href.match(/story(\d{4})(\d{2})(\d{2})-\d+/)
+  if (!match) return undefined
+
+  const [, year, month, day] = match
+  const time = timeText.trim()
+  if (!/^\d{2}:\d{2}$/.test(time)) return undefined
+
+  return new Date(`${year}-${month}-${day}T${time}:00+08:00`).valueOf()
+}
 
 export default defineSource(async () => {
-  const response: ArrayBuffer = await $fetch("https://www.kzaobao.com/top.html", {
-    responseType: "arrayBuffer",
+  const html = await $fetch<string>("https://www.zaobao.com/realtime", {
+    responseType: "text",
   })
-  const base = "https://www.kzaobao.com"
-  const utf8String = iconv.decode(Buffer.from(response), "gb2312")
-  const $ = cheerio.load(utf8String)
-  const $main = $("div[id^='cd0'] tr")
+
+  const $ = cheerio.load(html)
   const news: NewsItem[] = []
-  $main.each((_, el) => {
-    const a = $(el).find("h3>a")
-    // https://www.kzaobao.com/shiju/20241002/170659.html
-    const url = a.attr("href")
-    const title = a.text()
-    const date = $(el).find("td:nth-child(3)").text()
-    if (url && title && date) {
-      news.push({
-        url: base + url,
-        title,
-        id: url,
-        pubDate: parseRelativeDate(date, "Asia/Shanghai").valueOf(),
-      })
-    }
+  const seen = new Set<string>()
+
+  $("a[href]").each((_, el) => {
+    const href = $(el).attr("href")?.trim()
+    const text = $(el).text().replace(/\s+/g, " ").trim()
+    if (!href || seen.has(href)) return
+    if (!/^\/(?:news|finance)\/.+\/story\d{8}-\d+/.test(href)) return
+
+    const time = text.slice(0, 5)
+    const title = text.slice(5).trim()
+    if (!/^\d{2}:\d{2}$/.test(time)) return
+    if (!title) return
+
+    seen.add(href)
+    news.push({
+      id: href,
+      title,
+      url: `https://www.zaobao.com${href}`,
+      pubDate: parsePubDate(href, time),
+    })
   })
-  return news.sort((m, n) => n.pubDate! > m.pubDate! ? 1 : -1)
+
+  return news.sort((a, b) => (b.pubDate ?? 0) - (a.pubDate ?? 0))
 })
